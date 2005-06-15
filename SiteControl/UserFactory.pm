@@ -8,6 +8,8 @@ use Data::Dumper;
 use Apache::SiteControl::User;
 use Crypt::CBC;
 
+our $VERSION = "0.47";
+
 our $engine;
 
 sub init_engine

@@ -9,6 +9,8 @@ use Authen::Radius;
 #use Apache::RequestRec;
 #use APR::SockAddr;
 
+our $VERSION = "0.47";
+
 sub check_credentials
 {
    my $r    = shift;  # Apache request object

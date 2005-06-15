@@ -9,6 +9,8 @@ use Apache::SiteControl::Rule;
 
 use base qw(Apache::SiteControl::Rule);
 
+our $VERSION = "0.47";
+
 sub new {
    my $proto = shift;
    my $class = ref($proto) || $proto;

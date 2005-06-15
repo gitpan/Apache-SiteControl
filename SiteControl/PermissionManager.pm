@@ -5,6 +5,8 @@ use strict;
 use warnings;
 use Carp;
 
+our $VERSION = "0.47";
+
 sub new {
    my $proto = shift;
    my $class = ref($proto) || $proto;
