@@ -6,7 +6,7 @@ use warnings;
 use Carp;
 use Carp::Assert;
 
-our $VERSION = "0.47";
+our $VERSION = "0.48";
 
 sub getPermissionManager
 {

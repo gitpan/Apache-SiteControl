@@ -9,7 +9,7 @@ use Apache::SiteControl::Rule;
 
 use base qw(Apache::SiteControl::Rule);
 
-our $VERSION = "0.47";
+our $VERSION = "0.48";
 
 sub new {
    my $proto = shift;

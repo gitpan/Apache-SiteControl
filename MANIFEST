@@ -1,4 +1,7 @@
 README
+MANIFEST
+docs/README
+docs/apache
 samples/site/EditControlRule.pm
 samples/site/apache_sitecontrol.conf
 samples/site/samplelogin.pl
@@ -17,6 +20,7 @@ samples/site2/MyPermissionFactory.pm
 samples/site2/modperl_init.pl
 samples/site2/apache2.conf
 samples/site2/StringUserFactory.pm
+samples/schema.psql
 Changes
 Makefile.PL
 SiteControl/User.pm
@@ -27,3 +31,4 @@ SiteControl/Radius.pm
 SiteControl/UserFactory.pm
 SiteControl/ManagerFactory.pm
 SiteControl/GrantAllRule.pm
+META.yml                                 Module meta-data (added by MakeMaker)

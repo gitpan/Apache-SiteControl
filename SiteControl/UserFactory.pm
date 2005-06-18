@@ -8,7 +8,7 @@ use Data::Dumper;
 use Apache::SiteControl::User;
 use Crypt::CBC;
 
-our $VERSION = "0.47";
+our $VERSION = "0.48";
 
 our $engine;
 

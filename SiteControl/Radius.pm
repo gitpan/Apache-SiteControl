@@ -9,7 +9,7 @@ use Authen::Radius;
 #use Apache::RequestRec;
 #use APR::SockAddr;
 
-our $VERSION = "0.47";
+our $VERSION = "0.48";
 
 sub check_credentials
 {
