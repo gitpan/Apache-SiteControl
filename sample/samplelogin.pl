@@ -4,15 +4,20 @@ use strict;
 my $r = Apache->request;
 
 $r->status(200);
-my $uri = $r->prev->uri;
+
+# If they tried going to a protected resource, find out what it was so we can
+# forward them there on success.
+my $uri = $r->prev->uri if($r->prev);
 
 # if there are args, append that to the uri
-my $args = $r->prev->args;
-if ($args) {
+my $args = $r->prev->args if($r->prev);
+if ($uri && $args) {
     $uri .= "?$args";
 }
 
-my $reason = $r->prev->subprocess_env("AuthCookieReason");
+$uri = "/sample/site/index.html" if !$uri;
+
+my $reason = $r->prev->subprocess_env("AuthCookieReason") if($r->prev);
 
 my $form = <<HERE;
 <HTML>
@@ -20,7 +25,7 @@ my $form = <<HERE;
 <TITLE>Enter Login and Password</TITLE>
 </HEAD>
 <BODY onLoad="document.forms[0].credential_0.focus();">
-<FORM METHOD="POST" ACTION="/SampleLogin">
+<FORM METHOD="POST" ACTION="/sample/SampleLogin">
 <TABLE WIDTH=60% ALIGN=CENTER VALIGN=CENTER>
 <TR><TD ALIGN=CENTER>
 <H1>This is a secure document</H1>

@@ -1,4 +1,4 @@
-package Apache::SiteControl::AccessController;
+package Apache::SiteControl;
 
 use 5.008;
 use strict;
@@ -7,7 +7,7 @@ use Carp;
 use Apache::AuthCookie;
 use Apache::Session::File;
 
-our $VERSION = "0.48";
+our $VERSION = "1.0";
 
 use base qw(Apache::AuthCookie);
 
@@ -17,8 +17,8 @@ sub getCurrentUser
 {
    my $this = shift;
    my $r = shift;
-   my $debug = $r->dir_config("AccessControllerDebug") || 0;
-   my $factory = $r->dir_config("AccessControllerUserFactory") || "Apache::SiteControl::UserFactory";
+   my $debug = $r->dir_config("SiteControlDebug") || 0;
+   my $factory = $r->dir_config("SiteControlUserFactory") || "Apache::SiteControl::UserFactory";
    my $auth_type = $r->auth_type;
    my $auth_name = $r->auth_name;
    my ($ses_key) = ($r->header_in("Cookie") || "") =~ /$auth_type\_$auth_name=([^;]+)/;
@@ -46,14 +46,14 @@ sub getPermissionManager
    my $this = shift;
    my $r = shift;
 
-   my $debug = $r->dir_config("AccessControllerDebug") || 0;
+   my $debug = $r->dir_config("SiteControlDebug") || 0;
    my $name = $r->dir_config("AuthName") || "default";
    $r->log_error("AuthName is not set! Using 'default'.") if $name eq "default";
 
    return $managers{$name} if(defined($managers{$name}) && $managers{$name});
    $r->log_error("Building manager") if $debug;
 
-   my $factory = $r->dir_config("AccessControllerManagerFactory");
+   my $factory = $r->dir_config("SiteControlManagerFactory");
    $r->log_error("Manager Factory not set!") if !defined($factory);
 
    return undef if !defined($factory);
@@ -74,9 +74,9 @@ sub authen_cred
    my $this = shift;  # Package name (same as AuthName directive)
    my $r    = shift;  # Apache request object
    my @cred = @_;     # Credentials from login form
-   my $debug = $r->dir_config("AccessControllerDebug") || 0;
+   my $debug = $r->dir_config("SiteControlDebug") || 0;
    my $checker = $r->dir_config("SiteControlMethod") || "Apache::SiteControl::Radius";
-   my $factory = $r->dir_config("AccessControllerUserFactory") || "Apache::SiteControl::UserFactory";
+   my $factory = $r->dir_config("SiteControlUserFactory") || "Apache::SiteControl::UserFactory";
    my $user = undef;
    my $ok;
 
@@ -98,14 +98,14 @@ sub authen_cred
 }
 
 # This sub is called for every request that is under the control of
-# AccessController. It is responsible for verifying that the user id (session
+# SiteControl. It is responsible for verifying that the user id (session
 # key) is valid and that the user is ok.
 # It returns a user name if all is well, and undef if not.
 sub authen_ses_key
 {
    my ($this, $r, $session_key) = @_;
-   my $debug = $r->dir_config("AccessControllerDebug") || 0;
-   my $factory = $r->dir_config("AccessControllerUserFactory") || "Apache::SiteControl::UserFactory";
+   my $debug = $r->dir_config("SiteControlDebug") || 0;
+   my $factory = $r->dir_config("SiteControlUserFactory") || "Apache::SiteControl::UserFactory";
    my $user = undef;
 
    eval "require $factory" or $r->log_error("Could not load $factory: $@");
@@ -132,16 +132,16 @@ __END__
 
 =head1 NAME
 
-Apache::SiteControl::AccessController - Perl web site authentication/authorization system
+Apache::SiteControl - Perl web site authentication/authorization system
 
 =head1 SYNOPSIS
 
-See samples/site and sample/site2 for complete apache configuration. Note, this
-module works with mod_perl2, but only in Apache::compat mode.
+See samples/site for complete example. Note, this module is intended for
+mod_perl. See Apache2::SiteControl for mod_perl2.
 
 =head1 DESCRIPTION
 
-Apache::SiteControl::AccessController is a set of perl object-oriented classes that
+Apache::SiteControl is a set of perl object-oriented classes that
 implement a fine-grained security control system for a web-based application.
 The intent is to provide a clear, easy-to-integrate system that does not
 require the policies to be written into your application components. It
@@ -185,8 +185,8 @@ For example, your mason component might look like this:
    % }
 
    <%init>
-   my $currentUser = Apache::SiteControl::AccessController->getCurrentUser($r);
-   my $manager = Apache::SiteControl::AccessController->getPermissionManager($r);
+   my $currentUser = Apache::SiteControl->getCurrentUser($r);
+   my $manager = Apache::SiteControl->getPermissionManager($r);
 
    ... application specific stuff...
    i.e. 
@@ -207,20 +207,25 @@ you.
 
 The resource is intended to be less opaque. This is likely the object that the
 page developer wants to muck with, and so probably knows the internals of that
-object a bit better. This is the crossover point. 
+object a bit better. This is the crossover point from what SiteControl can
+figure out on its own to information you have to supply. 
 
 The default behavior is for the manager to deny any request.  In order for a
 request to be approved, someone has to write a rule that joins together the
 user, action, and resource and makes a decision about the permissibility of the
 action.
 
+If all you want is login and user tracking (but no permission manager), then it
+is safe to ignore the permission manager altogether.
+
 =head1 USERS
 
 Users and Rules are the central components of the SiteControl system. The user
-object must be Apache::SiteControl::User (or a subclass). See Apache::SiteControl::User for
-a description of what it supports (session storage, logout, etc.).
-The glue to SiteControl is the UserFactory, which you can define or accept the
-default of Apache::SiteControl::UserFactory (recommended). 
+object must be Apache::SiteControl::User (or a subclass). See
+Apache::SiteControl::User for a description of what it supports (session
+storage, logout, etc.).  The glue to SiteControl is the UserFactory, which you
+can define or accept the default of Apache::SiteControl::UserFactory
+(recommended). 
 
 Whenever a login attempt succeeds, the factory returns an object that
 represents a valid, logged-in user. See Apache::SiteControl::UserFactory for

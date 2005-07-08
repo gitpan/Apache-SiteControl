@@ -7,17 +7,16 @@ and seems to work well. There are sample sites in the samples directory. The
 differences in the two apache environments require slightly different setups,
 so be sure to use the proper sample for your configuration.
 
-If you are using this module with Apache2 and mod_perl2, you must use 
-the mod_perl 1 compatibility settings.
+Use Apache2::SiteControl for apache 2.x.
 
 Description
 ===========
 
-There are two levels of control in SiteControl. 
+There are two levels of control in Apache::SiteControl. 
 
-The first is managed by AccessController, and determines if a valid user
+The first is managed by Apache::SiteControl, and determines if a valid user
 has logged in. If so, it makes a user object available to the request
-processor. This is done using SiteControl::UserFactory (a good base
+processor. This is done using Apache::SiteControl::UserFactory (a good base
 implementation is already written).  The underlying code associates this user
 with a session, and manages the browser interaction.
 

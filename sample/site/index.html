@@ -2,6 +2,7 @@
    <HEAD><TITLE>Test Page</TITLE></HEAD>
    <BODY>
       <P> This is a sample page. 
+      <p><a href="/sample/site/logout.html">Logout</a></p>
 % if($manager->can($currentUser, "edit", $preferences)) {
       <FORM ACTION="null" METHOD=POST>
          <TABLE>
@@ -41,8 +42,8 @@
 </HTML>
 
 <%init>
-my $currentUser = Apache::SiteControl::AccessController::getCurrentUser($r);
-my $manager = Apache::SiteControl::AccessController::getPermissionManager($r);
+my $currentUser = Apache::SiteControl->getCurrentUser($r);
+my $manager = Apache::SiteControl->getPermissionManager($r);
 
 # This would be where you would access your back-end data store to get
 # data...we will simulate this will literals:

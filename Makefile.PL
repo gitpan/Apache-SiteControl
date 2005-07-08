@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     NAME                => 'Apache::SiteControl',
-    VERSION_FROM        => 'SiteControl/AccessController.pm', # finds $VERSION
+    VERSION             => '1.0',
     PREREQ_PM           => { Apache::AuthCookie => 3.04,
                              Apache::Session::File => 1.54,
                              Crypt::CBC => 2.14,

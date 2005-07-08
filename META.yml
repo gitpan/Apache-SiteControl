@@ -1,8 +1,8 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         Apache-SiteControl
-version:      0.48
-version_from: SiteControl/AccessController.pm
+version:      1.0
+version_from: 
 installdirs:  site
 requires:
     Apache::AuthCookie:            3.04

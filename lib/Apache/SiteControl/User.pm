@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = "0.48";
+our $VERSION = "1.0";
 
 # This object represents a transient view of a persistent user. The UserManager
 # is responsible for loading/saving these things.
@@ -79,7 +79,7 @@ Apache::SiteControl::User - User representations
 
 =head2 SYNOPSIS
 
-   my $user = Apache::SiteControl::AccessController->getCurrentUser($r);
+   my $user = Apache::SiteControl->getCurrentUser($r);
 
    # $r is the apache request object
 
@@ -106,23 +106,23 @@ require an Apache request object. The request object is used by some methods to
 coordinate access to the actual session information in the underlying system
 (for storing attributes and implementing logout).
 
-User objects are created by a factory (by default Apache::SiteControl::UserFactory),
-so if you subclass User, you must understand the complete interaction between
-the factory (which is responsible for interfacing with persistence), the
-AccessController, etc.
+User objects are created by a factory (by default
+Apache::SiteControl::UserFactory), so if you subclass User, you must understand
+the complete interaction between the factory (which is responsible for
+interfacing with persistence), the SiteControl, etc.
 
-The default implementation of User and UserFactory use AuthCookie to manage
-the sessions, and Apache::Session::File to store the various details about
-a user to disk.
+The default implementation of User and UserFactory use AuthCookie to manage the
+sessions, and Apache::Session::File to store the various details about a user
+to disk.
 
-If you are using Apache::SiteControl::User and Apache::SiteControl::UserFactory (the default
-and recommended), then you should configure the following parameters in your
-apache configuration file:
+If you are using Apache::SiteControl::User and Apache::SiteControl::UserFactory
+(the default and recommended), then you should configure the following
+parameters in your apache configuration file:
 
    # This is where the session data files will be stored
-   AccessControllerSessions directory_name
+   SiteControlSessions directory_name
    # This is where the locks will be stored
-   AccessControllerLocks directory_name
+   SiteControlLocks directory_name
 
 These two directories should be different, and should be readable and writable
 by the apache daemon only. They must exist before trying to use SiteControl.
@@ -148,7 +148,7 @@ user until they log out.
 =head1 SEE ALSO
 
 Apache::SiteControl::UserFactory, Apache::SiteControl::ManagerFactory,
-Apache::SiteControl::PermissionManager, Apache::SiteControl::AccessController
+Apache::SiteControl::PermissionManager, Apache::SiteControl
 
 =head1 AUTHOR
 

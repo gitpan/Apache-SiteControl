@@ -1,8 +1,8 @@
-package samples::site::MyPermissionFactory;
+package MyPermissionFactory;
 
 use Apache::SiteControl::PermissionManager;
 use Apache::SiteControl::GrantAllRule;
-use samples::site::EditControlRule;
+use EditControlRule;
 
 our $manager;
 
@@ -12,7 +12,7 @@ sub getPermissionManager
 
    $manager = new Apache::SiteControl::PermissionManager;
    $manager->addRule(new Apache::SiteControl::GrantAllRule);
-   $manager->addRule(new samples::site::EditControlRule);
+   $manager->addRule(new EditControlRule);
 
    return $manager;
 }
